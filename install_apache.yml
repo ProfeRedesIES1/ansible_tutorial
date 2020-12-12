@@ -1,0 +1,21 @@
+---
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: Actualizar la cache de apt
+    apt: 
+      update_cache: yes
+  
+  - name: instalar el paquete Apache2
+    apt:
+      name: apache2
+      state: latest
+
+  - name: Añadir soporte php a Apache
+    apt: 
+      name: libapache2-mod-php
+      state: latest
+      
+            

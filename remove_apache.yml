@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks: 
+
+  - name: Actualizar la cache de apt
+    apt: 
+      update_cache: yes
+  
+  - name: desinstalar apache2
+    apt:
+      name: apache2
+      state: absent
+
+  - name: Desinstalar php de apache
+    apt: 
+      name: libapache2-mod-php
+      state: absent
