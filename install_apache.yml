@@ -4,39 +4,27 @@
   become: true
   tasks: 
 
-  - name: Actualizar la cache de apt
-    apt: 
+# Ubuntu y Debian
+
+  - name: Instalar Apache2+PHP
+    apt:
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: latest
       update_cache: yes
     when: ansible_distribution in ["Ubuntu", "Debian"]
-  
-  - name: instalar el paquete Apache2
-    apt:
-      name: apache2
-      state: latest
-    when: ansible_distribution in ["Ubuntu", "Debian"]
 
-  - name: Añadir soporte php a Apache
-    apt: 
-      name: libapache2-mod-php
-      state: latest   
-    when: ansible_distribution in ["Ubuntu", "Debian"]
 
 # CentOS
 
-  - name: Actualizar la cache
-    dnf: 
+  - name: Instalar Apache2+PHP
+    dnf:
+      name: 
+        - httpd
+        - php
+      state: latest
       update_cache: yes
     when: ansible_distribution == "CentOS"
-  
-  - name: instalar el paquete Apache2
-    dnf:
-      name: httpd
-      state: latest
-    when: ansible_distribution == "CentOS"
 
-  - name: Añadir soporte php a Apache
-    dnf: 
-      name: php
-      state: latest   
-    when: ansible_distribution == "CentOS"
             
