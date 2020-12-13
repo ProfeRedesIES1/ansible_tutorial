@@ -6,4 +6,7 @@
 172.30.8.152
 
 [file_servers]
-172.30.8.153
+172.30.8.153 ansible_python_interpreter=/usr/bin/python3
+
+[workstations]
+172.30.254.186 ansible_python_interpreter=/usr/bin/python3
