@@ -1,0 +1,71 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks: 
+
+  - name: install updates (CentOS)
+    tags: always
+    dnf: 
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+    
+  - name: install updates (Ubuntu)
+    tags: always
+    apt: 
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution in ["Ubuntu", "Debian"]
+    
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: Instalar Apache2+PHP en sistemas Debian y Ubuntu
+    tags: apache, apache2, ubuntu
+    apt:
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution in ["Ubuntu", "Debian"]
+
+  - name: Instalar Apache2+PHP en sistemas CentOS
+    tags: apache, centos, httpd
+    dnf:
+      name: 
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+- hosts: db_servers
+  become: true
+  tasks:
+  
+  - name: Instalar MariaDB en CentOS
+    tags: centos, db, mariadb
+    dnf:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "CentOS"
+    
+  - name: Instlar MariaDB en Ubuntu o Debian
+    tags: db, mariadb, ubuntu
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- hosts: file_servers
+  become: true
+  tasks:
+  
+  - name: instalar samba en Debian
+    tags: samba
+    package: 
+      name: samba
+      state: latest
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+         
